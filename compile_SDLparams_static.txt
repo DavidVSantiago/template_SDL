@@ -1,0 +1,9 @@
+-static
+-lwinmm
+-loleaut32
+-lSetupapi
+-lImm32
+-lVersion
+-lOle32
+-static-libgcc
+-static-libstdc++

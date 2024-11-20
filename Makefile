@@ -14,10 +14,12 @@ SRC = \
 	src/main.c
 
 # lista de arquivos objetos, referentes a cada arquivo fonte.
-# src/%.c - obter todos os fontes .c da pasta src
-# .obj/%.o - gerar todos os objetos .o na pasta .obj
 # $(SRC) -  aplicar o padrão à lista definida na variável SRC
-OBJ=$(patsubst src/%.c,.obj/%.o,$(SRC))
+ifeq ($(OS),Windows_NT)
+	OBJ=$(patsubst src/%.c,.obj/windows/%.o,$(SRC))
+else
+	OBJ=$(patsubst src/%.c,.obj/linux/%.o,$(SRC))
+endif
 
 # CFLAGS é a variável para formar as flags de compilação
 # -Wall - ativa todos os avisos do compilador
@@ -41,11 +43,12 @@ all: $(EXE) # ?????
 .PHONY: all
 
 # Regra para compilar arquivos objetos
-$(OBJ): .obj/%.o : src/%.c
 ifeq ($(OS),Windows_NT)
-	@if not exist .obj mkdir -p .obj
+$(OBJ): .obj/windows%.o : src/%.c
+	@if not exist .obj\windows mkdir -p .obj\windows
 else
-	mkdir -p .obj
+$(OBJ): .obj/linux%.o : src/%.c
+	mkdir -p .obj/linux
 endif
 	$(COMPILER) $(CFLAGS) -c $< -o $@
 
@@ -61,10 +64,10 @@ endif
 # Regra para limpar os arquivos gerados
 clean:
 ifeq ($(OS),Windows_NT)
-	@if exist .obj rmdir /S /Q .obj
+	@if exist .obj\windows rmdir /S /Q .obj\windows
 	@if exist $(subst /,\,$(EXE)) del /Q $(subst /,\,$(EXE))
 else
-	@rm -rf .obj
+	@rm -rf .obj/linux
 	@rm -f $(EXE)
 endif
 .PHONY: clean

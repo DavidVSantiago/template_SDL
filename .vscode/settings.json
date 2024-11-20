@@ -46,7 +46,11 @@
         "streambuf": "cpp",
         "cinttypes": "cpp",
         "typeinfo": "cpp",
-        "sdl.h": "c"
+        "sdl.h": "c",
+        "stdio.h": "c",
+        "game.h": "c",
+        "resources.h": "c",
+        "stdlib.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled",
     "sourceFiles": [

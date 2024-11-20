@@ -1,42 +1,26 @@
 #include <stdio.h>
 #include <SDL2/SDL.h>
 
+#include "game.h"
+#include "resources.h"
+
 int main(int argc, char **argv) {
-    if(SDL_Init(SDL_INIT_VIDEO) != 0) {
-        printf("SDL_Init Error: %s\n",SDL_GetError());
+    if(SDL_Init(SDL_INIT_VIDEO) != 0) {printf("SDL_Init Error: %s\n",SDL_GetError());return 1;}
+    
+    Resources* res = getResourceInstance(); // obtem a intancia de recursos
+    /** Inicializa a janela*/
+    res->window = SDL_CreateWindow("Programa", 100, 100, 640, 480, SDL_WINDOW_SHOWN);
+    if(res->window == 0) {printf("SDL_Init Error: %s\n",SDL_GetError());SDL_Quit();return 1;}
 
-        return 1;
-    }
+    /* Inicializa o renderizador*/
+    res->renderer = SDL_CreateRenderer(res->window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    if(res->renderer == 0) {printf("SDL_Init Error: %s\n",SDL_GetError());SDL_DestroyWindow(res->window);SDL_Quit();return 1;}
 
-    SDL_Window *window = SDL_CreateWindow("r/gamedev", 100, 100, 640, 480, SDL_WINDOW_SHOWN);
-    if(window == 0) {
-        printf("SDL_Init Error: %s\n",SDL_GetError());
-        SDL_Quit();
-        return 1;
-    }
+    gameloop();
 
-    SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-    if(renderer == 0) {
-        printf("SDL_Init Error: %s\n",SDL_GetError());
-        SDL_DestroyWindow(window);
-        SDL_Quit();
-        return 1;
-    }
-
-    SDL_Event event;
-    int quit = 0;
-
-    while(!quit) {
-        while(SDL_PollEvent(&event)) {
-            if(event.type == SDL_QUIT) {
-                quit = 1;
-            }
-        }
-
-        SDL_RenderClear(renderer);
-        // renderTextures
-        SDL_RenderPresent(renderer);
-    }
+    SDL_DestroyRenderer(res->renderer);
+    SDL_DestroyWindow(res->window);
+    SDL_Quit();
 
     return 0;
 }

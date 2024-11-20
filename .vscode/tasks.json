@@ -2,18 +2,15 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "type": "shell",
             "label": "Linux_Task",
-            "command": "sh ${workspaceFolder}/build-linux.sh",
-            "args": [],
-            "options": {
-                "cwd": "${workspaceFolder}"
+            "type": "shell",
+            "command": "make",
+            "group": {
+                "kind": "build",
+                "isDefault": true
             },
-            "problemMatcher": [
-                "$gcc"
-            ],
-            "group": "build",
-            "detail": "compiler: /usr/bin/g++"
+            "problemMatcher": ["$gcc"], // Detecta erros do GCC
+            "detail": "Compila o projeto usando o comando 'make'"
         },
         {
             
@@ -27,7 +24,7 @@
                 "$gcc"
             ],
             "group": "build",
-            "detail": "compiler: C:/MinGW64/bin/gcc.exe"
+            "detail": "compiler: C:/MinGW64/bin/g++.exe"
         },
         
     ],

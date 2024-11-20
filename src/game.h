@@ -1,12 +1,10 @@
-#include <stdio.h>
-#include <SDL2/SDL.h>
 #pragma once
+#include <SDL2/SDL.h>
+#include <stdio.h>
+#include "resources.h"
 
-extern int game_isRunning;
-extern SDL_Event game_event;
-
+void gameInit();
 void gameloop();
 void handleEvents();
 void update();
 void render();
-void checkEvents();

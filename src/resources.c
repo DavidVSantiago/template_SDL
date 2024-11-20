@@ -1,7 +1,4 @@
-#pragma once
 #include "resources.h"
-#include <stdlib.h>
-#include <stdio.h>
 
 // Ponteiro para a instância única
 static Resources* instance = NULL;

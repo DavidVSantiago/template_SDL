@@ -1,6 +1,5 @@
-#include <stdio.h>
 #include <SDL2/SDL.h>
-
+#include <stdio.h>
 #include "game.h"
 #include "resources.h"
 
@@ -16,7 +15,7 @@ int main(int argc, char **argv) {
     res->renderer = SDL_CreateRenderer(res->window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     if(res->renderer == 0) {printf("SDL_Init Error: %s\n",SDL_GetError());SDL_DestroyWindow(res->window);SDL_Quit();return 1;}
 
-    gameloop();
+    gameInit();
 
     SDL_DestroyRenderer(res->renderer);
     SDL_DestroyWindow(res->window);

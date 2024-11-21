@@ -28,7 +28,7 @@ ifeq ($(OS),Windows_NT)
 	CFLAGS := -fdiagnostics-color=always -IC:/SDL2/x86_64-w64-mingw32/include
 	CFLAGS += -Wall -g
 else
-	CFLAGS := -I/usr/include/SDL2 -D_REENTRANT
+	CFLAGS := -Ilib/linux/include/SDL2 -D_REENTRANT
 	CFLAGS += -Wall -g
 endif
 
@@ -36,7 +36,7 @@ endif
 ifeq ($(OS),Windows_NT)
 	LDFLAGS := -LC:/SDL2/x86_64-w64-mingw32/lib -lmingw32 -lSDL2main -lSDL2 -mwindows
 else
-	LDFLAGS := -L/usr/lib/x86_64-linux-gnu -lSDL2main -lSDL2
+	LDFLAGS := -Llib/linux/lib -lSDL2main -lSDL2
 endif
 
 all: $(EXE) # ?????

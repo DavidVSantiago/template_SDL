@@ -1,5 +1,11 @@
 COMPILER=gcc#variável que define o compilador
-EXE=bin/linux/game#variável que define o nome do executável .exe
+
+# variável que define o nome do executável .exe
+ifeq ($(OS),Windows_NT)
+	EXE=bin/windows/game
+else
+	EXE=bin/linux/game
+endif
 
 # variável que define os arquivos fonte a serem compilados. o '\' é um separador para novas linhas
 SRC = \
@@ -16,22 +22,49 @@ OBJ=$(patsubst src/%.c,.obj/%.o,$(SRC))
 # CFLAGS é a variável para formar as flags de compilação
 # -Wall - ativa todos os avisos do compilador
 # -g - inclui informações de depuração no executável (necessário para debugar)
-CFLAGS := -I/usr/include/SDL2 -D_REENTRANT
-CFLAGS += -Wall -g
+ifeq ($(OS),Windows_NT)
+	CFLAGS := -fdiagnostics-color=always -IC:/SDL2/x86_64-w64-mingw32/include
+	CFLAGS += -Wall -g
+else
+	CFLAGS := -I/usr/include/SDL2 -D_REENTRANT
+	CFLAGS += -Wall -g
+endif
 
 # LDFLAGS é a variável para as flsags de linkagem
-LDFLAGS := -L/usr/lib/x86_64-linux-gnu -lSDL2main -lSDL2 -Wl,--enable-new-dtags -Wl,-Bstatic -Wl,-Bdynamic -lm -ldl -lpthread -lrt
+ifeq ($(OS),Windows_NT)
+	LDFLAGS := -LC:/SDL2/x86_64-w64-mingw32/lib -lmingw32 -lSDL2main -lSDL2 -mwindows
+else
+	LDFLAGS := -L/usr/lib/x86_64-linux-gnu -lSDL2main -lSDL2
+endif
 
 all: $(EXE) # ?????
 .PHONY: all
 
+# Regra para compilar arquivos objetos
 $(OBJ): .obj/%.o : src/%.c
-	@mkdir -p .obj
+ifeq ($(OS),Windows_NT)
+	@if not exist .obj mkdir -p .obj
+else
+	mkdir -p .obj
+endif
 	$(COMPILER) $(CFLAGS) -c $< -o $@
 
+# Regra para linkar e gerar o executável
 $(EXE): $(OBJ)
+ifeq ($(OS),Windows_NT)
+	@if not exist $(dir $@) mkdir $(subst /,\,$(dir $@))
+else
+	mkdir -p $(dir $@)
+endif
 	$(COMPILER) -o $@ $^ $(LDFLAGS)
 
+# Regra para limpar os arquivos gerados
 clean:
-	rm $(OBJ) $(EXE)
+ifeq ($(OS),Windows_NT)
+	@if exist .obj rmdir /S /Q .obj
+	@if exist $(subst /,\,$(EXE)) del /Q $(subst /,\,$(EXE))
+else
+	@rm -rf .obj
+	@rm -f $(EXE)
+endif
 .PHONY: clean

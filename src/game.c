@@ -9,7 +9,6 @@ Resources* res = NULL;
 void gameInit(){
     res = getResourceInstance(); // obtém a intância de recursos
     game_isRunning = 1;
-
     gameloop();
 }
 void gameloop() {

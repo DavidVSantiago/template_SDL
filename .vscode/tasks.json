@@ -16,7 +16,7 @@
             
             "type": "shell",
             "label": "Windows_Task",
-            "command": "${workspaceFolder}/build-windows.bat",
+            "command": "mingw32-make",
             "options": {
                 "cwd": "${workspaceFolder}"
             },

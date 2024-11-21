@@ -6,7 +6,7 @@
 int main(int argc, char **argv) {
     if(SDL_Init(SDL_INIT_VIDEO) != 0) {printf("SDL_Init Error: %s\n",SDL_GetError());return 1;}
     
-    Resources* res = getResourceInstance(); // obtem a intancia de recursos
+    Resources* res = getResourceInstance(); // obtém a intancia de recursos
     /** Inicializa a janela*/
     res->window = SDL_CreateWindow("Programa", 100, 100, 640, 480, SDL_WINDOW_SHOWN);
     if(res->window == 0) {printf("SDL_Init Error: %s\n",SDL_GetError());SDL_Quit();return 1;}

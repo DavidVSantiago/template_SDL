@@ -4,7 +4,7 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}/**",
-                "c:/SDL2/x86_64-w64-mingw32/include"
+                "${workspaceFolder}/lib/windows/include"
             ],
             "defines": [],
             "compilerPath": "C:/MinGW64/bin/g++.exe",
